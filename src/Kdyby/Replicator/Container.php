@@ -231,6 +231,18 @@ class Container extends Nette\Forms\Container
 			}
 		}
 
+
+		foreach($values as $container => $containerValues) {
+			foreach($containerValues as $name => $value) {
+				if(!$value) {
+					$component = $this->getComponent($container)->getComponent($name);
+					if($component instanceof Nette\Forms\Controls\SelectBox && $component->getPrompt() !== FALSE) {
+						$values[$container][$name] = NULL;
+					}
+				}
+			}
+		}
+
 		return parent::setValues($values, $erase, $onlyDisabled);
 	}
 
